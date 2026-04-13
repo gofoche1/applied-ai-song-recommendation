@@ -23,11 +23,21 @@ Some prompts to answer:
 
 - What features does each `Song` use in your system
   - For example: genre, mood, energy, tempo
+Each Song object includes the following features: id, title, artist, genre, mood, energy (as a float), tempo_bpm, valence, danceability, and acousticness. These are used to match against user preferences in the recommendation process.
+
 - What information does your `UserProfile` store
+The UserProfile stores the user's favorite_genre, favorite_mood, target_energy, and likes_acoustic.
+
 - How does your `Recommender` compute a score for each song
+The Recommender computes a score by evaluating how well each song's features align with the user's profile. For numerical features like energy, it uses a formula that rewards closeness to the user's preference (e.g., score = max(0, 1 - |user_preference - song_feature|)). Categorical features like genre and mood are scored as 1 for matches and 0 otherwise.
+
 - How do you choose which songs to recommend
+Songs are chosen by first computing scores for all songs using the scoring rule, then ranking them by score in descending order. The top k songs (default 5) are selected and returned as recommendations, ensuring the most relevant ones are prioritized.
 
 You can include a simple diagram or bullet list if helpful.
+
+
+
 
 ---
 
@@ -115,7 +125,7 @@ Combines reflection and model card framing from the Module 3 guidance. :contentR
 
 Give your recommender a name, for example:
 
-> VibeFinder 1.0
+> FoundtheVibe 1.0
 
 ---
 
@@ -133,13 +143,21 @@ Example:
 ## 3. How It Works (Short Explanation)
 
 Describe your scoring logic in plain language.
+The system recommends songs by comparing what the user likes with the features of each song, and then giving each song a score based on how well it matches.
 
 - What features of each song does it consider
+Genre,Mood,Energy level,Danceability, Acousticness
 - What information about the user does it use
+The system looks at the user’s preferences,their favorite genre, their preferred mood and their target energy level
 - How does it turn those into a number
+For each song, the system compares its features with the user’s preferences.
+If the song’s genre or mood matches the user’s favorites, it gets a higher score
 
-Try to avoid code in this section, treat it like an explanation to a non programmer.
+"Algorithm Recipe"
+My recommender uses a point-based scoring system to rank songs based on how closely they match a user’s taste profile. Each song is scored using four features: genre, mood, energy, and acousticness. A song receives +2.0 points if its genre matches the user’s favorite genre, +1.0 point if its mood matches the user’s favorite mood, and up to +2.0 points based on how close its energy level is to the user’s target energy using the formula max(0, 2.0 - abs(song_energy - target_energy) * 4).
 
+"Bias"
+It may over-prioritize genre, which could cause it to miss songs from other genres that still strongly match the user’s mood or energy preferences.
 ---
 
 ## 4. Data
