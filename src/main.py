@@ -49,13 +49,15 @@ def main():
 
     for profile_name, user_prefs in profiles.items():
         print(f"\n=== {profile_name} ===")
+
         recommendations = recommend_songs(user_prefs, songs, k=5)
 
-        for i, (song, score, explanation) in enumerate(recommendations, start=1):
+        for i, (song, score, explanation, critique) in enumerate(recommendations, start=1):
             print(f"{i}. {song['title']} by {song['artist']}")
             print(f"   Score: {score:.2f}")
             print(f"   Why: {explanation}")
+            print(f"   Model Check: {critique}")
             print("-" * 40)
-
+            
 if __name__ == "__main__":
     main()

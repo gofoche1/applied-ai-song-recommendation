@@ -139,14 +139,43 @@ def score_song(user_prefs: Dict, song: Dict) -> Tuple[float, List[str]]:
 
     return score, reasons
 
+def critique_recommendation(user_prefs, song, reasons):
+    critiques = []
 
-def recommend_songs(user_prefs: Dict, songs: List[Dict], k: int = 5) -> List[Tuple[Dict, float, str]]:
+    reason_text = " ".join(reasons)
+
+    if "genre match" not in reason_text:
+        critiques.append("genre mismatch")
+
+    if "mood match" not in reason_text:
+        critiques.append("mood mismatch")
+
+    if "energy similarity" not in reason_text:
+        critiques.append("energy not well aligned")
+
+    if user_prefs["likes_acoustic"]:
+        if song["acousticness"] < 0.5:
+            critiques.append("not very acoustic")
+    else:
+        if song["acousticness"] > 0.5:
+            critiques.append("too acoustic")
+
+    return ", ".join(critiques) if critiques else "strong match"
+
+def recommend_songs(user_prefs, songs, k=5):
     scored_songs = []
+
+    max_possible_score = 11.0
 
     for song in songs:
         score, reasons = score_song(user_prefs, song)
+        confidence = score / max_possible_score
+
         explanation = ", ".join(reasons)
-        scored_songs.append((song, score, explanation))
+        critique = critique_recommendation(user_prefs, song, reasons)
+
+        scored_songs.append((song, score, explanation, critique))
 
     scored_songs = sorted(scored_songs, key=lambda x: x[1], reverse=True)
+
     return scored_songs[:k]
