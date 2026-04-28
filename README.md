@@ -82,3 +82,6 @@ Summary: The recommender worked well for clear user preferences but struggled wi
 This project helped me understand how recommender systems translate user preferences into numerical scores and ranked outputs. I learned that even simple rule-based systems require careful design to avoid bias and ensure fairness. One of the most interesting takeaways was how small changes in scoring weights can significantly impact results. This experience gave me a deeper appreciation for how real-world systems like Spotify or Netflix balance personalization, diversity, and user satisfaction.
 
 My recommender has limitations due to its small dataset and fixed scoring rules, which can introduce bias. It tends to over-prioritize genre and uses exact matching, which may ignore similar styles and reduce diversity in recommendations. This system could be misused by reinforcing narrow preferences, so improvements like adding more diverse data and allowing partial matches would help make it more balanced. During development, AI tools were helpful for suggesting features like the self-critique function, but sometimes gave flawed code that required debugging. 
+
+
+Loom Link:
